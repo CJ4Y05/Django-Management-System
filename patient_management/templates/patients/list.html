@@ -1,0 +1,39 @@
+{% extends "base.html "%}
+
+{% block title %}Patient List{% endblock %}
+
+{% block content %}
+    {% if patients %}
+        <table border="1" cellpadding="10">
+            <tr>
+                <th>Patient ID</th>
+                <th>HRN</th>
+                <th>First Name</th>
+                <th>Middle Name</th>
+                <th>Last Name</th>
+                <th>Birth Date</th>
+                <th>Gender</th>
+                <th>Civil Status</th>
+                <th>Occupation</th>
+            </tr>
+
+            {% for patient in patients %}
+            <tr>
+                <td>{{ patient.patient_id }}</td>
+                <td>{{ patient.hrn }}</td>
+                <td>{{ patient.first_name }}</td>
+                <td>{{ patient.middle_name }}</td>
+                <td>{{ patient.last_name }}</td>
+                <td>{{ patient.birth_date }}</td>
+                <td>{{ patient.gender }}</td>
+                <td>{{ patient.civil_status }}</td>
+                <td>{{ patient.occupation }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No patients found.</p>
+    {% endif %}
+
+    <a href="{% url 'patient_create' %}">Create Patient</a>
+{% endblock %}
