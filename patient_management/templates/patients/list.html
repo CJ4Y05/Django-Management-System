@@ -1,5 +1,11 @@
 {% extends "base.html "%}
 
+<style>
+
+    
+
+</style>
+
 {% block title %}Patient List{% endblock %}
 
 {% block content %}
@@ -15,6 +21,7 @@
                 <th>Gender</th>
                 <th>Civil Status</th>
                 <th>Occupation</th>
+                <th>Action</th>
             </tr>
 
             {% for patient in patients %}
@@ -28,6 +35,12 @@
                 <td>{{ patient.gender }}</td>
                 <td>{{ patient.civil_status }}</td>
                 <td>{{ patient.occupation }}</td>
+                
+                <td>
+                    <a href="{% url 'patient_edit' patient.patient_id %}">
+                        <button>Edit</button>
+                    </a>
+                </td>
             </tr>
             {% endfor %}
         </table>

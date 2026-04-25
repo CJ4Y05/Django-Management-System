@@ -1,3 +1,72 @@
+<style>
+
+/* Remove default spacing on everything */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'poppins', Arial, sans-serif;
+}
+
+/* Top bar */
+.topbar {
+    background-color: #1a4f80;
+    color: white;
+    padding: 14px 24px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Sidebar + content sit side by side */
+.wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 180px;
+    background-color: #2c6fad;
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Sidebar section label */
+.sidebar-label {
+    color: #a8c8f0;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 12px 8px 6px;
+}
+
+/* Sidebar links */
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    padding: 9px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    display: block;
+}
+
+.sidebar a:hover {
+    background-color: #1a4f80;
+}
+
+/* Main content area */
+.content {
+    flex: 1;
+    padding: 28px;
+    background-color: #f4f6f8;
+}
+
+
+</style>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,15 +76,34 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head> 
 <body>
+     <!-- Top bar -->
+    <div class="topbar">
+        <h1>Patient Management</h1>
+    </div>
 
-    <h1>Patient Management</h1>
-    {% block content%}
+    <!-- Wrapper holds sidebar + content side by side -->
+    <div class="wrapper">
 
-    {% endblock %}
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'patient_list' %}">Patients</a>
+            <a href="{% url 'address_list' %}">Addresses</a>
+            <a href="{% url 'emergencycontact_list' %}">Contacts</a>
+            <a href="{% url 'guardian_list' %}">Guardian</a>
+        </div>
+
+        <!-- Main content — each page fills this -->
+        <div class="content">
+            {% block content %}
+            
+            {% endblock %}
+        </div>
+
+    </div>
+
     
 </body>
 </html>

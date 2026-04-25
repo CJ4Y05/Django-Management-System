@@ -74,6 +74,16 @@
 
         <button type="submit">Save Changes</button>
     </form>
+    <hr>
+
+    <form method="POST" action="{% url 'patient_delete' form_data.patient_id %}"
+        onsubmit="return confirm('Are you sure you want to delete this patient?');">
+        {% csrf_token %}
+
+        <button type="submit" style="background-color: red; color: white;">
+            Delete Patient
+        </button>
+    </form>
     <a href="{% url 'patient_list' %}">Go Back</a>
 
 {% endblock %}

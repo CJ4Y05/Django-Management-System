@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Create Emergency Contact{% endblock %}
+
+{% block content %}
+
+<h1>Create Emergency Contact</h1>
+
+{% if error_message %}
+<p style="color:red;">{{ error_message }}</p>
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label>Patient ID</label>
+    <input type="number" name="patient_id" value="{{ form_data.patient_id }}">
+
+    <label>Name</label>
+    <input type="text" name="name" value="{{ form_data.name }}">
+
+    <label>Relationship</label>
+    <input type="text" name="relationship" value="{{ form_data.relationship }}">
+
+    <label>Contact Number</label>
+    <input type="text" name="contact_number" value="{{ form_data.contact_number }}">
+
+    <label>Next of Kin</label>
+    <select name="is_next_of_kin">
+        <option value="">-- Select --</option>
+        <option value="1" {% if form_data.is_next_of_kin == "1" %}selected{% endif %}>Yes</option>
+        <option value="0" {% if form_data.is_next_of_kin == "0" %}selected{% endif %}>No</option>
+    </select>
+
+    <br><br>
+    <button type="submit">Save Contact</button>
+</form>
+
+<br>
+<a href="{% url 'emergencycontact_list' %}">Go Back</a>
+
+{% endblock %}

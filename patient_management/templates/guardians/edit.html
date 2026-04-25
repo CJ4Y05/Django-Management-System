@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Guardian{% endblock %}
+
+{% block content %}
+<h1>Edit Guardian</h1>
+
+{% if error_message %}
+<p style="color:red;">{{ error_message }}</p>
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label>Patient ID</label>
+    <input type="number" name="patient_id" value="{{ form_data.patient_id }}">
+
+    <label>Full Name</label>
+    <input type="text" name="full_name" value="{{ form_data.full_name }}">
+
+    <label>Relationship</label>
+    <input type="text" name="relationship" value="{{ form_data.relationship }}">
+
+    <label>Legal Representative</label>
+    <select name="is_legal_representative">
+        <option value="">-- Select --</option>
+        <option value="1" {% if form_data.is_legal_representative|stringformat:"s" == "1" %}selected{% endif %}>Yes</option>
+        <option value="0" {% if form_data.is_legal_representative|stringformat:"s" == "0" %}selected{% endif %}>No</option>
+    </select>
+
+    <label>Contact Info</label>
+    <input type="text" name="contact_info" value="{{ form_data.contact_info }}">
+
+    <br><br>
+    <button type="submit">Save Changes</button>
+</form>
+
+<hr>
+
+<a href="{% url 'guardian_delete' guardian_id %}">
+    <button style="background-color:red; color:white;">
+        Delete Guardian
+    </button>
+</a>
+
+<br><br>
+<a href="{% url 'guardian_list' %}">Go Back</a>
+
+{% endblock %}
