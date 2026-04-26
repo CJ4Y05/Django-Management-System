@@ -19,4 +19,12 @@ urlpatterns = [
     path('guardians/create/', views.guardian_create, name='guardian_create'),
     path('guardians/<int:guardian_id>/edit/', views.guardian_edit, name='guardian_edit'),
     path('guardians/<int:guardian_id>/delete/', views.guardian_delete, name='guardian_delete'),
+    path('admissions/', views.admission_list, name='admission_list'),
+    path('admissions/create/', views.admission_create, name='admission_create'),
+    path('admissions/<int:admission_id>/edit/', views.admission_edit, name='admission_edit'),
+    path('admissions/<int:admission_id>/delete/', views.admission_delete, name='admission_delete'),
+    path('allergies/', views.allergy_list, name='allergy_list'),
+    path('allergies/create/', views.allergy_create, name='allergy_create'),
+    path('allergies/<int:allergy_id>/edit/', views.allergy_edit, name='allergy_edit'),
+    path('allergies/<int:allergy_id>/delete/', views.allergy_delete, name='allergy_delete'),
 ]

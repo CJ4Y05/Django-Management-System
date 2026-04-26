@@ -400,3 +400,203 @@ def guardian_delete(request, guardian_id):
 
     return render(request, "guardians/delete.html", {"guardian": guardian})
 
+
+
+def admission_list(request):
+    admissions = api_get("admissions")
+
+    if isinstance(admissions, dict):
+        admissions = []
+
+    return render(request, "admissions/list.html", {"admissions": admissions})
+
+
+def admission_create(request):
+    fields = [
+        "patient_id",
+        "case_no",
+        "admission_date_time",
+        "admitting_doctor_id",
+        "initial_diagnosis",
+        "ward_room_id",
+        "admission_source",
+        "chief_complaint",
+    ]
+
+    context = {"form_data": {}, "error_message": None}
+
+    if request.method == "POST":
+        data = {field: request.POST.get(field, "").strip() for field in fields}
+        context["form_data"] = data
+
+        if not data["patient_id"] or not data["case_no"] or not data["admission_date_time"]:
+            context["error_message"] = "Patient ID, Case No, and Admission Date/Time are required."
+            return render(request, "admissions/create.html", context)
+
+        try:
+            api_insert("admissions", data)
+            return redirect("admission_list")
+        except Exception:
+            context["error_message"] = "Unable to create admission right now."
+
+    return render(request, "admissions/create.html", context)
+
+
+def admission_edit(request, admission_id):
+    result = api_get("admissions", params={"admission_id": admission_id})
+
+    if isinstance(result, list) and len(result) > 0:
+        admission = result[0]
+    else:
+        admission = result
+
+    if not admission:
+        return redirect("admission_list")
+
+    context = {
+        "form_data": admission,
+        "error_message": None,
+        "admission_id": admission_id,
+    }
+
+    if request.method == "POST":
+        data = {
+            "admission_id": admission_id,
+            "patient_id": request.POST.get("patient_id", "").strip(),
+            "case_no": request.POST.get("case_no", "").strip(),
+            "admission_date_time": request.POST.get("admission_date_time", "").strip(),
+            "admitting_doctor_id": request.POST.get("admitting_doctor_id", "").strip(),
+            "initial_diagnosis": request.POST.get("initial_diagnosis", "").strip(),
+            "ward_room_id": request.POST.get("ward_room_id", "").strip(),
+            "admission_source": request.POST.get("admission_source", "").strip(),
+            "chief_complaint": request.POST.get("chief_complaint", "").strip(),
+        }
+
+        context["form_data"] = data
+
+        if not data["patient_id"] or not data["case_no"] or not data["admission_date_time"]:
+            context["error_message"] = "Patient ID, Case No, and Admission Date/Time are required."
+            return render(request, "admissions/edit.html", context)
+
+        try:
+            api_update_full("admissions", data)
+            return redirect("admission_list")
+        except Exception:
+            context["error_message"] = "Unable to update admission right now."
+
+    return render(request, "admissions/edit.html", context)
+
+
+def admission_delete(request, admission_id):
+    result = api_get("admissions", params={"admission_id": admission_id})
+
+    if isinstance(result, list) and len(result) > 0:
+        admission = result[0]
+    else:
+        admission = result
+
+    if not admission:
+        return redirect("admission_list")
+
+    if request.method == "POST":
+        api_delete("admissions", {"admission_id": admission_id})
+        return redirect("admission_list")
+
+    return render(request, "admissions/delete.html", {"admission": admission})
+
+
+def allergy_list(request):
+    allergies = api_get("allergies")
+
+    if isinstance(allergies, dict):
+        allergies = []
+
+    return render(request, "allergies/list.html", {"allergies": allergies})
+
+
+def allergy_create(request):
+    fields = [
+        "patient_id",
+        "allergen",
+        "reaction_severity",
+        "symptoms",
+        "recorded_date",
+    ]
+
+    context = {"form_data": {}, "error_message": None}
+
+    if request.method == "POST":
+        data = {field: request.POST.get(field, "").strip() for field in fields}
+        context["form_data"] = data
+
+        if not data["patient_id"] or not data["allergen"]:
+            context["error_message"] = "Patient ID and Allergen are required."
+            return render(request, "allergies/create.html", context)
+
+        try:
+            api_insert("allergies", data)
+            return redirect("allergy_list")
+        except Exception:
+            context["error_message"] = "Unable to create allergy."
+
+    return render(request, "allergies/create.html", context)
+
+
+def allergy_edit(request, allergy_id):
+    result = api_get("allergies", params={"allergy_id": allergy_id})
+
+    if isinstance(result, list) and len(result) > 0:
+        allergy = result[0]
+    else:
+        allergy = result
+
+    if not allergy:
+        return redirect("allergy_list")
+
+    context = {
+        "form_data": allergy,
+        "error_message": None,
+        "allergy_id": allergy_id,
+    }
+
+    if request.method == "POST":
+        data = {
+            "allergy_id": allergy_id,
+            "patient_id": request.POST.get("patient_id", "").strip(),
+            "allergen": request.POST.get("allergen", "").strip(),
+            "reaction_severity": request.POST.get("reaction_severity", "").strip(),
+            "symptoms": request.POST.get("symptoms", "").strip(),
+            "recorded_date": request.POST.get("recorded_date", "").strip(),
+        }
+
+        context["form_data"] = data
+
+        if not data["patient_id"] or not data["allergen"]:
+            context["error_message"] = "Patient ID and Allergen are required."
+            return render(request, "allergies/edit.html", context)
+
+        try:
+            api_update_full("allergies", data)
+            return redirect("allergy_list")
+        except Exception:
+            context["error_message"] = "Unable to update allergy."
+
+    return render(request, "allergies/edit.html", context)
+
+
+def allergy_delete(request, allergy_id):
+    result = api_get("allergies", params={"allergy_id": allergy_id})
+
+    if isinstance(result, list) and len(result) > 0:
+        allergy = result[0]
+    else:
+        allergy = result
+
+    if not allergy:
+        return redirect("allergy_list")
+
+    if request.method == "POST":
+        api_delete("allergies", {"allergy_id": allergy_id})
+        return redirect("allergy_list")
+
+    return render(request, "allergies/delete.html", {"allergy": allergy})

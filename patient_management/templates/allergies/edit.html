@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Allergy{% endblock %}
+
+{% block content %}
+<h1>Edit Allergy</h1>
+
+{% if error_message %}
+<p style="color:red;">{{ error_message }}</p>
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label>Patient ID</label>
+    <input type="number" name="patient_id" value="{{ form_data.patient_id }}">
+
+    <label>Allergen</label>
+    <input type="text" name="allergen" value="{{ form_data.allergen }}">
+
+    <label>Reaction Severity</label>
+    <select name="reaction_severity">
+        <option value="">-- Select --</option>
+        <option value="Mild" {% if form_data.reaction_severity == "Mild" %}selected{% endif %}>Mild</option>
+        <option value="Moderate" {% if form_data.reaction_severity == "Moderate" %}selected{% endif %}>Moderate</option>
+        <option value="Severe" {% if form_data.reaction_severity == "Severe" %}selected{% endif %}>Severe</option>
+    </select>
+
+    <label>Symptoms</label>
+    <textarea name="symptoms">{{ form_data.symptoms }}</textarea>
+
+    <label>Recorded Date</label>
+    <input type="date" name="recorded_date" value="{{ form_data.recorded_date }}">
+
+    <br><br>
+    <button type="submit">Save Changes</button>
+</form>
+
+<hr>
+
+<form method="POST"
+      action="{% url 'allergy_delete' allergy_id %}"
+      onsubmit="return confirm('Are you sure you want to delete this allergy?');">
+    {% csrf_token %}
+    <button type="submit" style="background-color:red; color:white;">
+        Delete Allergy
+    </button>
+</form>
+
+<br>
+<a href="{% url 'allergy_list' %}">Go Back</a>
+
+{% endblock %}

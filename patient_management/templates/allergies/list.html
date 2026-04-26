@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Allergy List{% endblock %}
+
+{% block content %}
+<h1>Allergy List</h1>
+
+{% if allergies %}
+<table border="1" cellpadding="10">
+    <tr>
+        <th>ID</th>
+        <th>Patient ID</th>
+        <th>Allergen</th>
+        <th>Severity</th>
+        <th>Symptoms</th>
+        <th>Date</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for allergy in allergies %}
+    <tr>
+        <td>{{ allergy.allergy_id }}</td>
+        <td>{{ allergy.patient_id }}</td>
+        <td>{{ allergy.allergen }}</td>
+        <td>{{ allergy.reaction_severity }}</td>
+        <td>{{ allergy.symptoms }}</td>
+        <td>{{ allergy.recorded_date }}</td>
+        <td>
+            <a href="{% url 'allergy_edit' allergy.allergy_id %}">
+                <button>Edit</button>
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No allergies found.</p>
+{% endif %}
+
+<br>
+<a href="{% url 'allergy_create' %}">Create Allergy</a>
+
+{% endblock %}
