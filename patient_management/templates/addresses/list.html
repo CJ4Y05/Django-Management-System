@@ -1,48 +1,49 @@
 {% extends "base.html" %}
 
-{% block title %}Address List{% endblock %}
+{% block title %}Addresses{% endblock %}
 
 {% block content %}
-<h1>Address List</h1>
+<div class="container mt-4">
+    <h2 class="mb-4">Addresses</h2>
 
-{% if addresses %}
-<table border="1" cellpadding="10">
-    <tr>
-        <th>Address ID</th>
-        <th>Patient ID</th>
-        <th>Type</th>
-        <th>Street</th>
-        <th>Barangay</th>
-        <th>City</th>
-        <th>Province</th>
-        <th>Zip</th>
-        <th>Actions</th>
-    </tr>
+    <a href="{% url 'address_create' %}" class="btn btn-primary mb-3">+ Add Address</a>
 
-    {% for address in addresses %}
-    <tr>
-        <td>{{ address.address_id }}</td>
-        <td>{{ address.patient_id }}</td>
-        <td>{{ address.address_type }}</td>
-        <td>{{ address.street_subdivision }}</td>
-        <td>{{ address.barangay }}</td>
-        <td>{{ address.city_municipality }}</td>
-        <td>{{ address.province }}</td>
-        <td>{{ address.zip_code }}</td>
-
-        <td>
-            <a href="{% url 'address_edit' address.address_id %}">
-                <button>Edit</button>
-            </a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-{% else %}
-<p>No addresses found.</p>
-{% endif %}
-
-<br>
-<a href="{% url 'address_create' %}">Create Address</a>
-
+    {% if addresses %}
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Patient ID</th>
+                <th>Type</th>
+                <th>Street</th>
+                <th>Barangay</th>
+                <th>City</th>
+                <th>Province</th>
+                <th>Zip</th>
+                <th class="actions-col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for address in addresses %}
+            <tr>
+                <td>{{ address.address_id }}</td>
+                <td>{{ address.patient_id }}</td>
+                <td>{{ address.address_type }}</td>
+                <td>{{ address.street_subdivision }}</td>
+                <td>{{ address.barangay }}</td>
+                <td>{{ address.city_municipality }}</td>
+                <td>{{ address.province }}</td>
+                <td>{{ address.zip_code }}</td>
+                <td class="actions-col">
+                    <a href="{% url 'address_edit' address.address_id %}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="{% url 'address_delete' address.address_id %}" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No addresses found.</p>
+    {% endif %}
+</div>
 {% endblock %}

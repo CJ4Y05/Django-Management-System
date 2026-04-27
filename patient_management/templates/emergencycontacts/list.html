@@ -1,43 +1,45 @@
 {% extends "base.html" %}
 
-{% block title %}Emergency Contact List{% endblock %}
+{% block title %}Emergency Contacts{% endblock %}
 
 {% block content %}
-<h1>Emergency Contact List</h1>
+<div class="container mt-4">
+    <h2 class="mb-4">Emergency Contacts</h2>
 
-{% if contacts %}
-<table border="1" cellpadding="10">
-    <tr>
-        <th>Contact ID</th>
-        <th>Patient ID</th>
-        <th>Name</th>
-        <th>Relationship</th>
-        <th>Contact Number</th>
-        <th>Next of Kin</th>
-        <th>Actions</th>
-    </tr>
+    <a href="{% url 'emergencycontact_create' %}" class="btn btn-primary mb-3">+ Add Emergency Contact</a>
 
-    {% for contact in contacts %}
-    <tr>
-        <td>{{ contact.contact_id }}</td>
-        <td>{{ contact.patient_id }}</td>
-        <td>{{ contact.name }}</td>
-        <td>{{ contact.relationship }}</td>
-        <td>{{ contact.contact_number }}</td>
-        <td>{{ contact.is_next_of_kin }}</td>
-        <td>
-            <a href="{% url 'emergencycontact_edit' contact.contact_id %}">
-                <button>Edit</button>
-            </a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-{% else %}
-<p>No emergency contacts found.</p>
-{% endif %}
-
-<br>
-<a href="{% url 'emergencycontact_create' %}">Create Emergency Contact</a>
-
+    {% if contacts %}
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Patient ID</th>
+                <th>Name</th>
+                <th>Relationship</th>
+                <th>Contact Number</th>
+                <th>Next of Kin</th>
+                <th class="actions-col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contact in contacts %}
+            <tr>
+                <td>{{ contact.contact_id }}</td>
+                <td>{{ contact.patient_id }}</td>
+                <td>{{ contact.name }}</td>
+                <td>{{ contact.relationship }}</td>
+                <td>{{ contact.contact_number }}</td>
+                <td>{{ contact.is_next_of_kin }}</td>
+                <td class="actions-col">
+                    <a href="{% url 'emergencycontact_edit' contact.contact_id %}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="{% url 'emergencycontact_delete' contact.contact_id %}" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No emergency contacts found.</p>
+    {% endif %}
+</div>
 {% endblock %}

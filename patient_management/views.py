@@ -3,7 +3,27 @@ from .services.api import api_get, api_insert, api_delete, api_update_partial, a
 
 # Create your views here.
 def home(request):
-    return render(request, "home.html")
+    patients = api_get("patients")
+    admissions = api_get("admissions")
+    allergies = api_get("allergies")
+
+    if isinstance(patients, dict):
+        patients = []
+
+    if isinstance(admissions, dict):
+        admissions = []
+
+    if isinstance(allergies, dict):
+        allergies = []
+
+    recent_patients = patients[-5:] if patients else []
+    recent_admissions = admissions[-5:] if admissions else []
+
+    return render(request, "home.html", {
+        "recent_patients": recent_patients,
+        "recent_admissions": recent_admissions,
+    })
+    
 
 def patient_list(request):
     patients = api_get("patients")  
@@ -25,7 +45,7 @@ def patient_create(request):
         "civil_status",
         "blood_type",
         "nationality",
-        "religion", 
+        "religion",
         "occupation",
     ]
 

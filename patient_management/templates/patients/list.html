@@ -1,52 +1,65 @@
-{% extends "base.html "%}
+{% extends "base.html" %}
 
-<style>
-
-    
-
-</style>
-
-{% block title %}Patient List{% endblock %}
+{% block title %}Patients{% endblock %}
 
 {% block content %}
+<div class="container mt-4">
+
+    <h2 class="mb-4">Patients</h2>
+
+    <a href="{% url 'patient_create' %}" class="btn btn-primary mb-3">
+        + Add Patient
+    </a>
+
     {% if patients %}
-        <table border="1" cellpadding="10">
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
             <tr>
-                <th>Patient ID</th>
+                <th>ID</th>
                 <th>HRN</th>
-                <th>First Name</th>
-                <th>Middle Name</th>
-                <th>Last Name</th>
+                <th>Full Name</th>
                 <th>Birth Date</th>
                 <th>Gender</th>
-                <th>Civil Status</th>
-                <th>Occupation</th>
-                <th>Action</th>
+                <th class="actions-col">Actions</th>
             </tr>
+        </thead>
 
-            {% for patient in patients %}
+        <tbody>
+        {% for patient in patients %}
             <tr>
                 <td>{{ patient.patient_id }}</td>
                 <td>{{ patient.hrn }}</td>
-                <td>{{ patient.first_name }}</td>
-                <td>{{ patient.middle_name }}</td>
-                <td>{{ patient.last_name }}</td>
+
+                <!-- ✅ FULL NAME WITH MIDDLE NAME -->
+                <td>
+                    {{ patient.first_name }}
+                    {% if patient.middle_name %}
+                        {{ patient.middle_name }}
+                    {% endif %}
+                    {{ patient.last_name }}
+                </td>
+
                 <td>{{ patient.birth_date }}</td>
                 <td>{{ patient.gender }}</td>
-                <td>{{ patient.civil_status }}</td>
-                <td>{{ patient.occupation }}</td>
-                
-                <td>
-                    <a href="{% url 'patient_edit' patient.patient_id %}">
-                        <button>Edit</button>
+
+                <td class="actions-col">
+                    <a href="{% url 'patient_edit' patient.patient_id %}" 
+                       class="btn btn-sm btn-warning">
+                        Edit
+                    </a>
+
+                    <a href="{% url 'patient_delete' patient.patient_id %}" 
+                       class="btn btn-sm btn-danger">
+                        Delete
                     </a>
                 </td>
             </tr>
-            {% endfor %}
-        </table>
+        {% endfor %}
+        </tbody>
+    </table>
     {% else %}
         <p>No patients found.</p>
     {% endif %}
 
-    <a href="{% url 'patient_create' %}">Create Patient</a>
+</div>
 {% endblock %}

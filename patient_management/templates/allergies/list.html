@@ -1,43 +1,45 @@
 {% extends "base.html" %}
 
-{% block title %}Allergy List{% endblock %}
+{% block title %}Allergies{% endblock %}
 
 {% block content %}
-<h1>Allergy List</h1>
+<div class="container mt-4">
+    <h2 class="mb-4">Allergies</h2>
 
-{% if allergies %}
-<table border="1" cellpadding="10">
-    <tr>
-        <th>ID</th>
-        <th>Patient ID</th>
-        <th>Allergen</th>
-        <th>Severity</th>
-        <th>Symptoms</th>
-        <th>Date</th>
-        <th>Actions</th>
-    </tr>
+    <a href="{% url 'allergy_create' %}" class="btn btn-primary mb-3">+ Add Allergy</a>
 
-    {% for allergy in allergies %}
-    <tr>
-        <td>{{ allergy.allergy_id }}</td>
-        <td>{{ allergy.patient_id }}</td>
-        <td>{{ allergy.allergen }}</td>
-        <td>{{ allergy.reaction_severity }}</td>
-        <td>{{ allergy.symptoms }}</td>
-        <td>{{ allergy.recorded_date }}</td>
-        <td>
-            <a href="{% url 'allergy_edit' allergy.allergy_id %}">
-                <button>Edit</button>
-            </a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-{% else %}
-<p>No allergies found.</p>
-{% endif %}
-
-<br>
-<a href="{% url 'allergy_create' %}">Create Allergy</a>
-
+    {% if allergies %}
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Patient ID</th>
+                <th>Allergen</th>
+                <th>Severity</th>
+                <th>Symptoms</th>
+                <th>Date</th>
+                <th class="actions-col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for allergy in allergies %}
+            <tr>
+                <td>{{ allergy.allergy_id }}</td>
+                <td>{{ allergy.patient_id }}</td>
+                <td>{{ allergy.allergen }}</td>
+                <td>{{ allergy.reaction_severity }}</td>
+                <td>{{ allergy.symptoms }}</td>
+                <td>{{ allergy.recorded_date }}</td>
+                <td class="actions-col">
+                    <a href="{% url 'allergy_edit' allergy.allergy_id %}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="{% url 'allergy_delete' allergy.allergy_id %}" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No allergies found.</p>
+    {% endif %}
+</div>
 {% endblock %}

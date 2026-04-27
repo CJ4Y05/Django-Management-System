@@ -3,40 +3,49 @@
 {% block title %}Create Emergency Contact{% endblock %}
 
 {% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Create Emergency Contact</h2>
 
-<h1>Create Emergency Contact</h1>
+    {% if error_message %}
+        <div class="alert alert-danger">{{ error_message }}</div>
+    {% endif %}
 
-{% if error_message %}
-<p style="color:red;">{{ error_message }}</p>
-{% endif %}
+    <form method="POST" class="card p-4 shadow-sm">
+        {% csrf_token %}
 
-<form method="POST">
-    {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Patient ID</label>
+            <input type="number" name="patient_id" class="form-control" value="{{ form_data.patient_id }}">
+        </div>
 
-    <label>Patient ID</label>
-    <input type="number" name="patient_id" value="{{ form_data.patient_id }}">
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" name="name" class="form-control" value="{{ form_data.name }}">
+        </div>
 
-    <label>Name</label>
-    <input type="text" name="name" value="{{ form_data.name }}">
+        <div class="mb-3">
+            <label class="form-label">Relationship</label>
+            <input type="text" name="relationship" class="form-control" value="{{ form_data.relationship }}">
+        </div>
 
-    <label>Relationship</label>
-    <input type="text" name="relationship" value="{{ form_data.relationship }}">
+        <div class="mb-3">
+            <label class="form-label">Contact Number</label>
+            <input type="text" name="contact_number" class="form-control" value="{{ form_data.contact_number }}">
+        </div>
 
-    <label>Contact Number</label>
-    <input type="text" name="contact_number" value="{{ form_data.contact_number }}">
+        <div class="mb-3">
+            <label class="form-label">Next of Kin</label>
+            <select name="is_next_of_kin" class="form-select">
+                <option value="">-- Select --</option>
+                <option value="1" {% if form_data.is_next_of_kin == "1" %}selected{% endif %}>Yes</option>
+                <option value="0" {% if form_data.is_next_of_kin == "0" %}selected{% endif %}>No</option>
+            </select>
+        </div>
 
-    <label>Next of Kin</label>
-    <select name="is_next_of_kin">
-        <option value="">-- Select --</option>
-        <option value="1" {% if form_data.is_next_of_kin == "1" %}selected{% endif %}>Yes</option>
-        <option value="0" {% if form_data.is_next_of_kin == "0" %}selected{% endif %}>No</option>
-    </select>
-
-    <br><br>
-    <button type="submit">Save Contact</button>
-</form>
-
-<br>
-<a href="{% url 'emergencycontact_list' %}">Go Back</a>
-
+        <div class="d-flex justify-content-between">
+            <a href="{% url 'emergencycontact_list' %}" class="btn btn-secondary">Back</a>
+            <button type="submit" class="btn btn-success">Save Contact</button>
+        </div>
+    </form>
+</div>
 {% endblock %}

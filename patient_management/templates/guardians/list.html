@@ -1,43 +1,45 @@
 {% extends "base.html" %}
 
-{% block title %}Guardian List{% endblock %}
+{% block title %}Guardians{% endblock %}
 
 {% block content %}
-<h1>Guardian List</h1>
+<div class="container mt-4">
+    <h2 class="mb-4">Guardians</h2>
 
-{% if guardians %}
-<table border="1" cellpadding="10">
-    <tr>
-        <th>Guardian ID</th>
-        <th>Patient ID</th>
-        <th>Full Name</th>
-        <th>Relationship</th>
-        <th>Legal Representative</th>
-        <th>Contact Info</th>
-        <th>Actions</th>
-    </tr>
+    <a href="{% url 'guardian_create' %}" class="btn btn-primary mb-3">+ Add Guardian</a>
 
-    {% for guardian in guardians %}
-    <tr>
-        <td>{{ guardian.guardian_id }}</td>
-        <td>{{ guardian.patient_id }}</td>
-        <td>{{ guardian.full_name }}</td>
-        <td>{{ guardian.relationship }}</td>
-        <td>{{ guardian.is_legal_representative }}</td>
-        <td>{{ guardian.contact_info }}</td>
-        <td>
-            <a href="{% url 'guardian_edit' guardian.guardian_id %}">
-                <button>Edit</button>
-            </a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-{% else %}
-<p>No guardians found.</p>
-{% endif %}
-
-<br>
-<a href="{% url 'guardian_create' %}">Create Guardian</a>
-
+    {% if guardians %}
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Patient ID</th>
+                <th>Full Name</th>
+                <th>Relationship</th>
+                <th>Legal Representative</th>
+                <th>Contact Info</th>
+                <th class="actions-col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for guardian in guardians %}
+            <tr>
+                <td>{{ guardian.guardian_id }}</td>
+                <td>{{ guardian.patient_id }}</td>
+                <td>{{ guardian.full_name }}</td>
+                <td>{{ guardian.relationship }}</td>
+                <td>{{ guardian.is_legal_representative }}</td>
+                <td>{{ guardian.contact_info }}</td>
+                <td class="actions-col">
+                    <a href="{% url 'guardian_edit' guardian.guardian_id %}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="{% url 'guardian_delete' guardian.guardian_id %}" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No guardians found.</p>
+    {% endif %}
+</div>
 {% endblock %}

@@ -3,51 +3,65 @@
 {% block title %}Create Admission{% endblock %}
 
 {% block content %}
-<h1>Create Admission</h1>
+<div class="container mt-4">
+    <h2 class="mb-4">Create Admission</h2>
 
-{% if error_message %}
-<p style="color:red;">{{ error_message }}</p>
-{% endif %}
+    {% if error_message %}
+        <div class="alert alert-danger">{{ error_message }}</div>
+    {% endif %}
 
-<form method="POST">
-    {% csrf_token %}
+    <form method="POST" class="card p-4 shadow-sm">
+        {% csrf_token %}
 
-    <label>Patient ID</label>
-    <input type="number" name="patient_id" value="{{ form_data.patient_id }}">
+        <div class="mb-3">
+            <label class="form-label">Patient ID</label>
+            <input type="number" name="patient_id" class="form-control" value="{{ form_data.patient_id }}">
+        </div>
 
-    <label>Case No</label>
-    <input type="text" name="case_no" value="{{ form_data.case_no }}">
+        <div class="mb-3">
+            <label class="form-label">Case No</label>
+            <input type="text" name="case_no" class="form-control" value="{{ form_data.case_no }}">
+        </div>
 
-    <label>Admission Date and Time</label>
-    <input type="datetime-local" name="admission_date_time" value="{{ form_data.admission_date_time }}">
+        <div class="mb-3">
+            <label class="form-label">Admission Date and Time</label>
+            <input type="datetime-local" name="admission_date_time" class="form-control" value="{{ form_data.admission_date_time }}">
+        </div>
 
-    <label>Admitting Doctor ID</label>
-    <input type="number" name="admitting_doctor_id" value="{{ form_data.admitting_doctor_id }}">
+        <div class="mb-3">
+            <label class="form-label">Admitting Doctor ID</label>
+            <input type="number" name="admitting_doctor_id" class="form-control" value="{{ form_data.admitting_doctor_id }}">
+        </div>
 
-    <label>Initial Diagnosis</label>
-    <textarea name="initial_diagnosis">{{ form_data.initial_diagnosis }}</textarea>
+        <div class="mb-3">
+            <label class="form-label">Initial Diagnosis</label>
+            <textarea name="initial_diagnosis" class="form-control">{{ form_data.initial_diagnosis }}</textarea>
+        </div>
 
-    <label>Ward Room ID</label>
-    <input type="number" name="ward_room_id" value="{{ form_data.ward_room_id }}">
+        <div class="mb-3">
+            <label class="form-label">Ward Room ID</label>
+            <input type="number" name="ward_room_id" class="form-control" value="{{ form_data.ward_room_id }}">
+        </div>
 
-    <label>Admission Source</label>
-    <select name="admission_source">
-        <option value="">-- Select --</option>
-        <option value="Emergency" {% if form_data.admission_source == "Emergency" %}selected{% endif %}>Emergency</option>
-        <option value="Outpatient" {% if form_data.admission_source == "Outpatient" %}selected{% endif %}>Outpatient</option>
-        <option value="Referral" {% if form_data.admission_source == "Referral" %}selected{% endif %}>Referral</option>
-        <option value="Transfer" {% if form_data.admission_source == "Transfer" %}selected{% endif %}>Transfer</option>
-        <option value="Walk-in" {% if form_data.admission_source == "Walk-in" %}selected{% endif %}>Walk-in</option>
-    </select>
+        <div class="mb-3">
+            <label class="form-label">Admission Source</label>
+            <select name="admission_source" class="form-select">
+                <option value="">-- Select --</option>
+                <option value="ER" {% if form_data.admission_source == "ER" %}selected{% endif %}>ER</option>
+                <option value="OPD" {% if form_data.admission_source == "OPD" %}selected{% endif %}>OPD</option>
+                <option value="Transfer" {% if form_data.admission_source == "Transfer" %}selected{% endif %}>Transfer</option>
+            </select>
+        </div>
 
-    <label>Chief Complaint</label>
-    <textarea name="chief_complaint">{{ form_data.chief_complaint }}</textarea>
+        <div class="mb-3">
+            <label class="form-label">Chief Complaint</label>
+            <textarea name="chief_complaint" class="form-control">{{ form_data.chief_complaint }}</textarea>
+        </div>
 
-    <br><br>
-    <button type="submit">Save Admission</button>
-</form>
-
-<br>
-<a href="{% url 'admission_list' %}">Go Back</a>
-
+        <div class="d-flex justify-content-between">
+            <a href="{% url 'admission_list' %}" class="btn btn-secondary">Back</a>
+            <button type="submit" class="btn btn-success">Save Admission</button>
+        </div>
+    </form>
+</div>
 {% endblock %}

@@ -3,23 +3,27 @@
 {% block title %}Delete Emergency Contact{% endblock %}
 
 {% block content %}
+<div class="container mt-4">
+    <div class="card p-4 shadow-sm">
+        <h3 class="text-danger mb-3">Delete Emergency Contact</h3>
 
-<h1>Delete Emergency Contact</h1>
+        <p>Are you sure you want to delete this emergency contact?</p>
 
-<p>
-    Are you sure you want to delete
-    <strong>{{ contact.name }}</strong>?
-</p>
+        <ul class="list-group mb-3">
+            <li class="list-group-item"><strong>Name:</strong> {{ contact.name }}</li>
+            <li class="list-group-item"><strong>Relationship:</strong> {{ contact.relationship }}</li>
+            <li class="list-group-item"><strong>Contact Number:</strong> {{ contact.contact_number }}</li>
+        </ul>
 
-<form method="POST">
-    {% csrf_token %}
+        <div class="alert alert-warning">This action cannot be undone.</div>
 
-    <button type="submit" style="background-color:red; color:white;">
-        Yes, Delete
-    </button>
-</form>
-
-<br>
-<a href="{% url 'emergencycontact_list' %}">Cancel</a>
-
+        <form method="POST">
+            {% csrf_token %}
+            <div class="d-flex justify-content-between">
+                <a href="{% url 'emergencycontact_list' %}" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}

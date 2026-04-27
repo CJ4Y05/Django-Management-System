@@ -7,7 +7,7 @@ def api_get(module, params=None):
     url = f"{BASE_URL}/{module}/get.php"
     response = requests.get(url, params=params)
 
-    try:
+    try: 
         return response.json()
     except:
         print("GET API ERROR:")
@@ -61,3 +61,4 @@ def api_update_partial(module, data):
         print("UPDATE PARTIAL API ERROR:")
         print(response.text)
         return {}
+    

@@ -3,40 +3,55 @@
 {% block title %}Create Allergy{% endblock %}
 
 {% block content %}
-<h1>Create Allergy</h1>
+<div class="container mt-4">
 
-{% if error_message %}
-<p style="color:red;">{{ error_message }}</p>
-{% endif %}
+    <h2 class="mb-4">Create Allergy</h2>
 
-<form method="POST">
-    {% csrf_token %}
+    {% if error_message %}
+        <div class="alert alert-danger">
+            {{ error_message }}
+        </div>
+    {% endif %}
 
-    <label>Patient ID</label>
-    <input type="number" name="patient_id" value="{{ form_data.patient_id }}">
+    <form method="POST" class="card p-4 shadow-sm">
+        {% csrf_token %}
 
-    <label>Allergen</label>
-    <input type="text" name="allergen" value="{{ form_data.allergen }}">
+        <div class="mb-3">
+            <label class="form-label">Patient ID</label>
+            <input type="number" name="patient_id" class="form-control" value="{{ form_data.patient_id }}">
+        </div>
 
-    <label>Reaction Severity</label>
-    <select name="reaction_severity">
-        <option value="">-- Select --</option>
-        <option value="Mild" {% if form_data.reaction_severity == "Mild" %}selected{% endif %}>Mild</option>
-        <option value="Moderate" {% if form_data.reaction_severity == "Moderate" %}selected{% endif %}>Moderate</option>
-        <option value="Severe" {% if form_data.reaction_severity == "Severe" %}selected{% endif %}>Severe</option>
-    </select>
+        <div class="mb-3">
+            <label class="form-label">Allergen</label>
+            <input type="text" name="allergen" class="form-control" value="{{ form_data.allergen }}">
+        </div>
 
-    <label>Symptoms</label>
-    <textarea name="symptoms">{{ form_data.symptoms }}</textarea>
+        <div class="mb-3">
+            <label class="form-label">Reaction Severity</label>
+            <select name="reaction_severity" class="form-select">
+                <option value="">-- Select --</option>
+                <option value="Mild" {% if form_data.reaction_severity == "Mild" %}selected{% endif %}>Mild</option>
+                <option value="Moderate" {% if form_data.reaction_severity == "Moderate" %}selected{% endif %}>Moderate</option>
+                <option value="Severe" {% if form_data.reaction_severity == "Severe" %}selected{% endif %}>Severe</option>
+            </select>
+        </div>
 
-    <label>Recorded Date</label>
-    <input type="date" name="recorded_date" value="{{ form_data.recorded_date }}">
+        <div class="mb-3">
+            <label class="form-label">Symptoms</label>
+            <textarea name="symptoms" class="form-control">{{ form_data.symptoms }}</textarea>
+        </div>
 
-    <br><br>
-    <button type="submit">Save Allergy</button>
-</form>
+        <div class="mb-3">
+            <label class="form-label">Recorded Date</label>
+            <input type="date" name="recorded_date" class="form-control" value="{{ form_data.recorded_date }}">
+        </div>
 
-<br>
-<a href="{% url 'allergy_list' %}">Go Back</a>
+        <div class="d-flex justify-content-between">
+            <a href="{% url 'allergy_list' %}" class="btn btn-secondary">Back</a>
+            <button type="submit" class="btn btn-success">Save</button>
+        </div>
 
+    </form>
+
+</div>
 {% endblock %}

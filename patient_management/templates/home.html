@@ -1,8 +1,129 @@
 {% extends "base.html" %}
 
-{% block title %}Home Page | Patient Management{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block content %}
-    <h1>Welcome to the Home Page</h1>
+<div class="container mt-4">
 
-{% endblock %} 
+    <h2 class="mb-4">Hospital Management System</h2>
+
+    <!-- 🟦 QUICK ACTIONS -->
+    <div class="card p-4 shadow-sm mb-4">
+        <h4 class="mb-3">Quick Actions</h4>
+
+        <!-- FLEX ROW WITH EQUAL WIDTH BUTTONS -->
+        <div class="d-flex gap-2">
+
+            <a href="{% url 'patient_create' %}" class="btn btn-success flex-fill text-center">
+                + Patient
+            </a>
+
+            <a href="{% url 'admission_create' %}" class="btn btn-primary flex-fill text-center">
+                + Admission
+            </a>
+
+            <a href="{% url 'allergy_create' %}" class="btn btn-warning flex-fill text-center">
+                + Allergy
+            </a>
+
+            <a href="{% url 'emergencycontact_create' %}" class="btn btn-info flex-fill text-center">
+                + Emergency
+            </a>
+
+            <a href="{% url 'guardian_create' %}" class="btn btn-secondary flex-fill text-center">
+                + Guardian
+            </a>
+
+            <a href="{% url 'address_create' %}" class="btn btn-dark flex-fill text-center">
+                + Address
+            </a>
+
+        </div>
+    </div>
+
+    <!-- 🟦 RECENT PATIENTS -->
+    <div class="card p-4 shadow-sm mb-4">
+        <h4 class="mb-3">Recent Patients</h4>
+
+        {% if recent_patients %}
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>HRN</th>
+                    <th>Full Name</th>
+                    <th>Gender</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for patient in recent_patients %}
+                <tr>
+                    <td>{{ patient.patient_id }}</td>
+                    <td>{{ patient.hrn }}</td>
+                    <td>
+                        {{ patient.first_name }}
+                        {% if patient.middle_name %}
+                            {{ patient.middle_name }}
+                        {% endif %}
+                        {{ patient.last_name }}
+                    </td>
+                    <td>{{ patient.gender }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p>No recent patients found.</p>
+        {% endif %}
+
+        <!-- RIGHT-ALIGNED SMALL BUTTON -->
+        <div class="text-end">
+            <a href="{% url 'patient_list' %}" class="btn btn-outline-primary btn-sm">
+                View Patients
+            </a>
+        </div>
+    </div>
+
+    <!-- 🟦 RECENT ADMISSIONS -->
+    <div class="card p-4 shadow-sm mb-4">
+        <h4 class="mb-3">Recent Admissions</h4>
+
+        {% if recent_admissions %}
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Patient ID</th>
+                    <th>Case No</th>
+                    <th>Date/Time</th>
+                    <th>Complaint</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for admission in recent_admissions %}
+                <tr>
+                    <td>{{ admission.admission_id }}</td>
+                    <td>{{ admission.patient_id }}</td>
+                    <td>{{ admission.case_no }}</td>
+                    <td>{{ admission.admission_date_time }}</td>
+                    <td>{{ admission.chief_complaint }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p>No recent admissions found.</p>
+        {% endif %}
+
+        <!-- RIGHT-ALIGNED SMALL BUTTON -->
+        <div class="text-end">
+            <a href="{% url 'admission_list' %}" class="btn btn-outline-primary btn-sm">
+                View Admissions
+            </a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

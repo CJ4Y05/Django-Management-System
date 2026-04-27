@@ -3,46 +3,59 @@
 {% block title %}Create Address{% endblock %}
 
 {% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Create Address</h2>
 
-<h1>Create Address</h1>
+    {% if error_message %}
+        <div class="alert alert-danger">{{ error_message }}</div>
+    {% endif %}
 
-{% if error_message %}
-<p style="color:red;">{{ error_message }}</p>
-{% endif %}
+    <form method="POST" class="card p-4 shadow-sm">
+        {% csrf_token %}
 
-<form method="POST">
-    {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Patient ID</label>
+            <input type="number" name="patient_id" class="form-control" value="{{ form_data.patient_id }}">
+        </div>
 
-    <label>Patient ID</label>
-    <input type="number" name="patient_id" value="{{ form_data.patient_id }}">
+        <div class="mb-3">
+            <label class="form-label">Address Type</label>
+            <select name="address_type" class="form-select">
+                <option value="">-- Select --</option>
+                <option value="Permanent" {% if form_data.address_type == "Permanent" %}selected{% endif %}>Permanent</option>
+                <option value="Current" {% if form_data.address_type == "Current" %}selected{% endif %}>Current</option>
+            </select>
+        </div>
 
-    <label>Address Type</label>
-    <select name="address_type">
-        <option value="">-- Select --</option>
-        <option value="Permanent" {% if form_data.address_type == "Permanent" %}selected{% endif %}>Permanent</option>
-        <option value="Current" {% if form_data.address_type == "Current" %}selected{% endif %}>Current</option>
-    </select>
+        <div class="mb-3">
+            <label class="form-label">Street / Subdivision</label>
+            <input type="text" name="street_subdivision" class="form-control" value="{{ form_data.street_subdivision }}">
+        </div>
 
-    <label>Street / Subdivision</label>
-    <input type="text" name="street_subdivision" value="{{ form_data.street_subdivision }}">
+        <div class="mb-3">
+            <label class="form-label">Barangay</label>
+            <input type="text" name="barangay" class="form-control" value="{{ form_data.barangay }}">
+        </div>
 
-    <label>Barangay</label>
-    <input type="text" name="barangay" value="{{ form_data.barangay }}">
+        <div class="mb-3">
+            <label class="form-label">City / Municipality</label>
+            <input type="text" name="city_municipality" class="form-control" value="{{ form_data.city_municipality }}">
+        </div>
 
-    <label>City / Municipality</label>
-    <input type="text" name="city_municipality" value="{{ form_data.city_municipality }}">
+        <div class="mb-3">
+            <label class="form-label">Province</label>
+            <input type="text" name="province" class="form-control" value="{{ form_data.province }}">
+        </div>
 
-    <label>Province</label>
-    <input type="text" name="province" value="{{ form_data.province }}">
+        <div class="mb-3">
+            <label class="form-label">Zip Code</label>
+            <input type="text" name="zip_code" class="form-control" value="{{ form_data.zip_code }}">
+        </div>
 
-    <label>Zip Code</label>
-    <input type="text" name="zip_code" value="{{ form_data.zip_code }}">
-
-    <br><br>
-    <button type="submit">Save Address</button>
-</form>
-
-<br>
-<a href="{% url 'address_list' %}">Go Back</a>
-
+        <div class="d-flex justify-content-between">
+            <a href="{% url 'address_list' %}" class="btn btn-secondary">Back</a>
+            <button type="submit" class="btn btn-success">Save Address</button>
+        </div>
+    </form>
+</div>
 {% endblock %}

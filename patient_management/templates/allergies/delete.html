@@ -3,36 +3,40 @@
 {% block title %}Delete Allergy{% endblock %}
 
 {% block content %}
+<div class="container mt-4">
 
-<h1>Delete Allergy</h1>
+    <div class="card p-4 shadow-sm">
 
-<p>
-    Are you sure you want to delete this allergy record?
-</p>
+        <h3 class="text-danger mb-3">Delete Allergy</h3>
 
-<p>
-    <strong>Allergen:</strong> {{ allergy.allergen }} <br>
-    <strong>Patient ID:</strong> {{ allergy.patient_id }} <br>
-    <strong>Severity:</strong> {{ allergy.reaction_severity }} <br>
-    <strong>Date Recorded:</strong> {{ allergy.recorded_date }}
-</p>
+        <p>Are you sure you want to delete this record?</p>
 
-<p style="color:red;">
-    This action cannot be undone.
-</p>
+        <ul class="list-group mb-3">
+            <li class="list-group-item"><strong>Allergen:</strong> {{ allergy.allergen }}</li>
+            <li class="list-group-item"><strong>Patient ID:</strong> {{ allergy.patient_id }}</li>
+            <li class="list-group-item"><strong>Severity:</strong> {{ allergy.reaction_severity }}</li>
+            <li class="list-group-item"><strong>Date:</strong> {{ allergy.recorded_date }}</li>
+        </ul>
 
-<form method="POST">
-    {% csrf_token %}
+        <div class="alert alert-warning">
+            This action cannot be undone.
+        </div>
 
-    <button type="submit" style="background-color:red; color:white;">
-        Yes, Delete
-    </button>
-</form>
+        <form method="POST">
+            {% csrf_token %}
 
-<br>
+            <div class="d-flex justify-content-between">
+                <a href="{% url 'allergy_list' %}" class="btn btn-secondary">
+                    Cancel
+                </a>
 
-<a href="{% url 'allergy_list' %}">
-    Cancel
-</a>
+                <button type="submit" class="btn btn-danger">
+                    Yes, Delete
+                </button>
+            </div>
+        </form>
 
+    </div>
+
+</div>
 {% endblock %}
