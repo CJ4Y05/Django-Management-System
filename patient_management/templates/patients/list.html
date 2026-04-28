@@ -4,12 +4,9 @@
 
 {% block content %}
 <div class="container mt-4">
-
     <h2 class="mb-4">Patients</h2>
 
-    <a href="{% url 'patient_create' %}" class="btn btn-primary mb-3">
-        + Add Patient
-    </a>
+    <a href="{% url 'patient_create' %}" class="btn btn-primary mb-3">+ Add Patient</a>
 
     {% if patients %}
     <table class="table table-bordered table-striped table-hover">
@@ -17,49 +14,47 @@
             <tr>
                 <th>ID</th>
                 <th>HRN</th>
-                <th>Full Name</th>
+                <th>First Name</th>
+                <th>Middle Name</th>
+                <th>Last Name</th>
+                <th>Suffix</th>
                 <th>Birth Date</th>
                 <th>Gender</th>
+                <th>Civil Status</th>
+                <th>Blood Type</th>
+                <th>Nationality</th>
+                <th>Religion</th>
+                <th>Occupation</th>
                 <th class="actions-col">Actions</th>
             </tr>
         </thead>
 
         <tbody>
-        {% for patient in patients %}
+            {% for patient in patients %}
             <tr>
                 <td>{{ patient.patient_id }}</td>
                 <td>{{ patient.hrn }}</td>
-
-                <!-- ✅ FULL NAME WITH MIDDLE NAME -->
-                <td>
-                    {{ patient.first_name }}
-                    {% if patient.middle_name %}
-                        {{ patient.middle_name }}
-                    {% endif %}
-                    {{ patient.last_name }}
-                </td>
-
+                <td>{{ patient.first_name }}</td>
+                <td>{{ patient.middle_name }}</td>
+                <td>{{ patient.last_name }}</td>
+                <td>{{ patient.suffix }}</td>
                 <td>{{ patient.birth_date }}</td>
                 <td>{{ patient.gender }}</td>
-
+                <td>{{ patient.civil_status }}</td>
+                <td>{{ patient.blood_type }}</td>
+                <td>{{ patient.nationality }}</td>
+                <td>{{ patient.religion }}</td>
+                <td>{{ patient.occupation }}</td>
                 <td class="actions-col">
-                    <a href="{% url 'patient_edit' patient.patient_id %}" 
-                       class="btn btn-sm btn-warning">
-                        Edit
-                    </a>
-
-                    <a href="{% url 'patient_delete' patient.patient_id %}" 
-                       class="btn btn-sm btn-danger">
-                        Delete
-                    </a>
+                    <a href="{% url 'patient_edit' patient.patient_id %}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="{% url 'patient_delete' patient.patient_id %}" class="btn btn-sm btn-danger">Delete</a>
                 </td>
             </tr>
-        {% endfor %}
+            {% endfor %}
         </tbody>
     </table>
     {% else %}
         <p>No patients found.</p>
     {% endif %}
-
 </div>
 {% endblock %}

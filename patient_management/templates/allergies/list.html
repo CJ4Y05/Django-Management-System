@@ -12,15 +12,16 @@
     <table class="table table-bordered table-striped table-hover">
         <thead class="table-dark">
             <tr>
-                <th>ID</th>
+                <th>Allergy ID</th>
                 <th>Patient ID</th>
                 <th>Allergen</th>
-                <th>Severity</th>
+                <th>Reaction Severity</th>
                 <th>Symptoms</th>
-                <th>Date</th>
+                <th>Recorded Date</th>
                 <th class="actions-col">Actions</th>
             </tr>
         </thead>
+
         <tbody>
             {% for allergy in allergies %}
             <tr>
@@ -39,7 +40,7 @@
         </tbody>
     </table>
     {% else %}
-    <p>No allergies found.</p>
+        <p>No allergies found.</p>
     {% endif %}
 </div>
 {% endblock %}

@@ -12,18 +12,19 @@
     <table class="table table-bordered table-striped table-hover">
         <thead class="table-dark">
             <tr>
-                <th>ID</th>
+                <th>Admission ID</th>
                 <th>Patient ID</th>
                 <th>Case No</th>
-                <th>Date/Time</th>
+                <th>Admission Date/Time</th>
                 <th>Doctor ID</th>
-                <th>Diagnosis</th>
-                <th>Room ID</th>
-                <th>Source</th>
+                <th>Initial Diagnosis</th>
+                <th>Ward Room ID</th>
+                <th>Admission Source</th>
                 <th>Chief Complaint</th>
                 <th class="actions-col">Actions</th>
             </tr>
         </thead>
+
         <tbody>
             {% for admission in admissions %}
             <tr>
@@ -45,7 +46,7 @@
         </tbody>
     </table>
     {% else %}
-    <p>No admissions found.</p>
+        <p>No admissions found.</p>
     {% endif %}
 </div>
 {% endblock %}

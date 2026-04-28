@@ -4,11 +4,19 @@
 
 {% block content %}
 <div class="container mt-4">
-
     <h2 class="mb-4">Edit Guardian</h2>
+
+    {% if error_message %}
+        <div class="alert alert-danger">{{ error_message }}</div>
+    {% endif %}
 
     <form method="POST" class="card p-4 shadow-sm">
         {% csrf_token %}
+
+        <div class="mb-3">
+            <label class="form-label">Patient ID</label>
+            <input type="number" name="patient_id" class="form-control" value="{{ form_data.patient_id }}">
+        </div>
 
         <div class="mb-3">
             <label class="form-label">Full Name</label>
@@ -21,7 +29,16 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Contact</label>
+            <label class="form-label">Legal Representative</label>
+            <select name="is_legal_representative" class="form-select">
+                <option value="">-- Select --</option>
+                <option value="1" {% if form_data.is_legal_representative|stringformat:"s" == "1" %}selected{% endif %}>Yes</option>
+                <option value="0" {% if form_data.is_legal_representative|stringformat:"s" == "0" %}selected{% endif %}>No</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Contact Info</label>
             <input type="text" name="contact_info" class="form-control" value="{{ form_data.contact_info }}">
         </div>
 
@@ -32,8 +49,7 @@
     </form>
 
     <div class="mt-3 text-end">
-        <a href="{% url 'guardian_delete' guardian_id %}" class="btn btn-danger">Delete</a>
+        <a href="{% url 'guardian_delete' guardian_id %}" class="btn btn-danger">Delete Guardian</a>
     </div>
-
 </div>
 {% endblock %}

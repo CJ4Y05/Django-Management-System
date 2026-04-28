@@ -4,11 +4,19 @@
 
 {% block content %}
 <div class="container mt-4">
-
     <h2 class="mb-4">Edit Allergy</h2>
+
+    {% if error_message %}
+        <div class="alert alert-danger">{{ error_message }}</div>
+    {% endif %}
 
     <form method="POST" class="card p-4 shadow-sm">
         {% csrf_token %}
+
+        <div class="mb-3">
+            <label class="form-label">Patient ID</label>
+            <input type="number" name="patient_id" class="form-control" value="{{ form_data.patient_id }}">
+        </div>
 
         <div class="mb-3">
             <label class="form-label">Allergen</label>
@@ -16,12 +24,23 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Severity</label>
+            <label class="form-label">Reaction Severity</label>
             <select name="reaction_severity" class="form-select">
+                <option value="">-- Select --</option>
                 <option value="Mild" {% if form_data.reaction_severity == "Mild" %}selected{% endif %}>Mild</option>
                 <option value="Moderate" {% if form_data.reaction_severity == "Moderate" %}selected{% endif %}>Moderate</option>
                 <option value="Severe" {% if form_data.reaction_severity == "Severe" %}selected{% endif %}>Severe</option>
             </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Symptoms</label>
+            <textarea name="symptoms" class="form-control">{{ form_data.symptoms }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Recorded Date</label>
+            <input type="date" name="recorded_date" class="form-control" value="{{ form_data.recorded_date }}">
         </div>
 
         <div class="d-flex justify-content-between">
@@ -31,8 +50,7 @@
     </form>
 
     <div class="mt-3 text-end">
-        <a href="{% url 'allergy_delete' allergy_id %}" class="btn btn-danger">Delete</a>
+        <a href="{% url 'allergy_delete' allergy_id %}" class="btn btn-danger">Delete Allergy</a>
     </div>
-
 </div>
 {% endblock %}

@@ -12,17 +12,18 @@
     <table class="table table-bordered table-striped table-hover">
         <thead class="table-dark">
             <tr>
-                <th>ID</th>
+                <th>Address ID</th>
                 <th>Patient ID</th>
-                <th>Type</th>
-                <th>Street</th>
+                <th>Address Type</th>
+                <th>Street / Subdivision</th>
                 <th>Barangay</th>
-                <th>City</th>
+                <th>City / Municipality</th>
                 <th>Province</th>
-                <th>Zip</th>
+                <th>Zip Code</th>
                 <th class="actions-col">Actions</th>
             </tr>
         </thead>
+
         <tbody>
             {% for address in addresses %}
             <tr>
@@ -43,7 +44,7 @@
         </tbody>
     </table>
     {% else %}
-    <p>No addresses found.</p>
+        <p>No addresses found.</p>
     {% endif %}
 </div>
 {% endblock %}

@@ -12,7 +12,7 @@
     <table class="table table-bordered table-striped table-hover">
         <thead class="table-dark">
             <tr>
-                <th>ID</th>
+                <th>Guardian ID</th>
                 <th>Patient ID</th>
                 <th>Full Name</th>
                 <th>Relationship</th>
@@ -21,6 +21,7 @@
                 <th class="actions-col">Actions</th>
             </tr>
         </thead>
+
         <tbody>
             {% for guardian in guardians %}
             <tr>
@@ -39,7 +40,7 @@
         </tbody>
     </table>
     {% else %}
-    <p>No guardians found.</p>
+        <p>No guardians found.</p>
     {% endif %}
 </div>
 {% endblock %}
