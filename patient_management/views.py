@@ -620,3 +620,312 @@ def allergy_delete(request, allergy_id):
         return redirect("allergy_list")
 
     return render(request, "allergies/delete.html", {"allergy": allergy})
+
+def discharge_list(request):
+    discharges = api_get("discharges")
+
+    if isinstance(discharges, dict):
+        discharges = []
+
+    return render(request, "discharges/list.html", {"discharges": discharges})
+
+
+def discharge_create(request):
+    fields = [
+        "admission_id", "discharge_date_time", "discharge_condition",
+        "final_diagnosis", "discharged_by", "medico_legal_status",
+    ]
+
+    context = {"form_data": {}, "error_message": None}
+
+    if request.method == "POST":
+        data = {field: request.POST.get(field, "").strip() for field in fields}
+        context["form_data"] = data
+
+        if not data["admission_id"] or not data["discharge_date_time"]:
+            context["error_message"] = "Admission ID and Discharge Date are required."
+            return render(request, "discharges/create.html", context)
+
+        try:
+            api_insert("discharges", data)
+            return redirect("discharge_list")
+        except Exception:
+            context["error_message"] = "Unable to save. Please try again."
+
+    return render(request, "discharges/create.html", context)
+
+
+def discharge_edit(request, discharge_id):
+    discharge = api_get("discharges", params={"discharge_id": discharge_id})
+
+    if not discharge:
+        return redirect("discharge_list")
+
+    context = {"form_data": discharge, "error_message": None}
+
+    if request.method == "POST":
+        data = {
+            "discharge_id":       discharge_id,
+            "admission_id":       request.POST.get("admission_id", "").strip(),
+            "discharge_date_time": request.POST.get("discharge_date_time", "").strip(),
+            "discharge_condition": request.POST.get("discharge_condition", "").strip(),
+            "final_diagnosis":    request.POST.get("final_diagnosis", "").strip(),
+            "discharged_by":      request.POST.get("discharged_by", "").strip(),
+            "medico_legal_status": request.POST.get("medico_legal_status", "").strip(),
+        }
+
+        context["form_data"] = data
+
+        if not data["admission_id"] or not data["discharge_date_time"]:
+            context["error_message"] = "Admission ID and Discharge Date are required."
+            return render(request, "discharges/edit.html", context)
+
+        api_update_full("discharges", data)
+        return redirect("discharge_list")
+
+    return render(request, "discharges/edit.html", context)
+
+
+def discharge_delete(request, discharge_id):
+    discharge = api_get("discharges", params={"discharge_id": discharge_id})
+
+    if not discharge:
+        return redirect("discharge_list")
+
+    if request.method == "POST":
+        api_delete("discharges", {"discharge_id": discharge_id})
+        return redirect("discharge_list")
+
+    return render(request, "discharges/delete.html", {"discharge": discharge})
+
+
+def patientnote_list(request):
+    notes = api_get("patientnotes")
+
+    if isinstance(notes, dict):
+        notes = []
+
+    return render(request, "patientnotes/list.html", {"notes": notes})
+
+
+def patientnote_create(request):
+    fields = [
+        "patient_id", "staff_id", "note_type",
+        "content", "created_at",
+    ]
+
+    context = {"form_data": {}, "error_message": None}
+
+    if request.method == "POST":
+        data = {field: request.POST.get(field, "").strip() for field in fields}
+        context["form_data"] = data
+
+        if not data["patient_id"] or not data["note_type"] or not data["content"]:
+            context["error_message"] = "Patient ID, Note Type, and Content are required."
+            return render(request, "patientnotes/create.html", context)
+
+        try:
+            api_insert("patientnotes", data)
+            return redirect("patientnote_list")
+        except Exception:
+            context["error_message"] = "Unable to save. Please try again."
+
+    return render(request, "patientnotes/create.html", context)
+
+
+def patientnote_edit(request, note_id):
+    note = api_get("patientnotes", params={"note_id": note_id})
+
+    if not note:
+        return redirect("patientnote_list")
+
+    context = {"form_data": note, "error_message": None}
+
+    if request.method == "POST":
+        data = {
+            "note_id":    note_id,
+            "patient_id": request.POST.get("patient_id", "").strip(),
+            "staff_id":   request.POST.get("staff_id", "").strip(),
+            "note_type":  request.POST.get("note_type", "").strip(),
+            "content":    request.POST.get("content", "").strip(),
+            "created_at": request.POST.get("created_at", "").strip(),
+        }
+
+        context["form_data"] = data
+
+        if not data["patient_id"] or not data["note_type"] or not data["content"]:
+            context["error_message"] = "Patient ID, Note Type, and Content are required."
+            return render(request, "patientnotes/edit.html", context)
+
+        api_update_full("patientnotes", data)
+        return redirect("patientnote_list")
+
+    return render(request, "patientnotes/edit.html", context)
+
+
+def patientnote_delete(request, note_id):
+    note = api_get("patientnotes", params={"note_id": note_id})
+
+    if not note:
+        return redirect("patientnote_list")
+
+    if request.method == "POST":
+        api_delete("patientnotes", {"note_id": note_id})
+        return redirect("patientnote_list")
+
+    return render(request, "patientnotes/delete.html", {"note": note})
+
+def medicalhistory_list(request):
+    histories = api_get("medicalhistory")
+
+    if isinstance(histories, dict):
+        histories = []
+
+    return render(request, "medicalhistory/list.html", {"histories": histories})
+
+
+def medicalhistory_create(request):
+    fields = [
+        "patient_id", "condition_name", "diagnosis_date",
+        "is_chronic", "family_history_relevance", "previous_surgeries",
+    ]
+
+    context = {"form_data": {}, "error_message": None}
+
+    if request.method == "POST":
+        data = {field: request.POST.get(field, "").strip() for field in fields}
+        context["form_data"] = data
+
+        if not data["patient_id"] or not data["condition_name"]:
+            context["error_message"] = "Patient ID and Condition Name are required."
+            return render(request, "medicalhistory/create.html", context)
+
+        try:
+            api_insert("medicalhistory", data)
+            return redirect("medicalhistory_list")
+        except Exception:
+            context["error_message"] = "Unable to save. Please try again."
+
+    return render(request, "medicalhistory/create.html", context)
+
+
+def medicalhistory_edit(request, history_id):
+    history = api_get("medicalhistory", params={"history_id": history_id})
+
+    if not history:
+        return redirect("medicalhistory_list")
+
+    context = {"form_data": history, "error_message": None}
+
+    if request.method == "POST":
+        data = {
+            "history_id":               history_id,
+            "patient_id":               request.POST.get("patient_id", "").strip(),
+            "condition_name":           request.POST.get("condition_name", "").strip(),
+            "diagnosis_date":           request.POST.get("diagnosis_date", "").strip(),
+            "is_chronic":               request.POST.get("is_chronic", "").strip(),
+            "family_history_relevance": request.POST.get("family_history_relevance", "").strip(),
+            "previous_surgeries":       request.POST.get("previous_surgeries", "").strip(),
+        }
+
+        context["form_data"] = data
+
+        if not data["patient_id"] or not data["condition_name"]:
+            context["error_message"] = "Patient ID and Condition Name are required."
+            return render(request, "medicalhistory/edit.html", context)
+
+        api_update_full("medicalhistory", data)
+        return redirect("medicalhistory_list")
+
+    return render(request, "medicalhistory/edit.html", context)
+
+
+def medicalhistory_delete(request, history_id):
+    history = api_get("medicalhistory", params={"history_id": history_id})
+
+    if not history:
+        return redirect("medicalhistory_list")
+
+    if request.method == "POST":
+        api_delete("medicalhistory", {"history_id": history_id})
+        return redirect("medicalhistory_list")
+
+    return render(request, "medicalhistory/delete.html", {"history": history})
+
+def insuranceinfo_list(request):
+    insurances = api_get("insuranceinfo")
+
+    if isinstance(insurances, dict):
+        insurances = []
+
+    return render(request, "insuranceinfo/list.html", {"insurances": insurances})
+
+
+def insuranceinfo_create(request):
+    fields = [
+        "patient_id", "provider_type", "philhealth_no",
+        "hmo_name", "policy_number", "is_active", "coverage_limit",
+    ]
+
+    context = {"form_data": {}, "error_message": None}
+
+    if request.method == "POST":
+        data = {field: request.POST.get(field, "").strip() for field in fields}
+        context["form_data"] = data
+
+        if not data["patient_id"] or not data["provider_type"]:
+            context["error_message"] = "Patient ID and Provider Type are required."
+            return render(request, "insuranceinfo/create.html", context)
+
+        try:
+            api_insert("insuranceinfo", data)
+            return redirect("insuranceinfo_list")
+        except Exception:
+            context["error_message"] = "Unable to save. Please try again."
+
+    return render(request, "insuranceinfo/create.html", context)
+
+
+def insuranceinfo_edit(request, insurance_id):
+    insurance = api_get("insuranceinfo", params={"insurance_id": insurance_id})
+
+    if not insurance:
+        return redirect("insuranceinfo_list")
+
+    context = {"form_data": insurance, "error_message": None}
+
+    if request.method == "POST":
+        data = {
+            "insurance_id":   insurance_id,
+            "patient_id":     request.POST.get("patient_id", "").strip(),
+            "provider_type":  request.POST.get("provider_type", "").strip(),
+            "philhealth_no":  request.POST.get("philhealth_no", "").strip(),
+            "hmo_name":       request.POST.get("hmo_name", "").strip(),
+            "policy_number":  request.POST.get("policy_number", "").strip(),
+            "is_active":      request.POST.get("is_active", "").strip(),
+            "coverage_limit": request.POST.get("coverage_limit", "").strip(),
+        }
+
+        context["form_data"] = data
+
+        if not data["patient_id"] or not data["provider_type"]:
+            context["error_message"] = "Patient ID and Provider Type are required."
+            return render(request, "insuranceinfo/edit.html", context)
+
+        api_update_full("insuranceinfo", data)
+        return redirect("insuranceinfo_list")
+
+    return render(request, "insuranceinfo/edit.html", context)
+
+
+def insuranceinfo_delete(request, insurance_id):
+    insurance = api_get("insuranceinfo", params={"insurance_id": insurance_id})
+
+    if not insurance:
+        return redirect("insuranceinfo_list")
+
+    if request.method == "POST":
+        api_delete("insuranceinfo", {"insurance_id": insurance_id})
+        return redirect("insuranceinfo_list")
+
+    return render(request, "insuranceinfo/delete.html", {"insurance": insurance})

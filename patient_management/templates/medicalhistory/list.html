@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Medical History{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Medical History</h2>
+
+    <a href="{% url 'medicalhistory_create' %}" class="btn btn-primary mb-3">+ Add Record</a>
+
+    {% if histories %}
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>History ID</th>
+                <th>Patient ID</th>
+                <th>Condition Name</th>
+                <th>Diagnosis Date</th>
+                <th>Is Chronic</th>
+                <th>Family History</th>
+                <th>Previous Surgeries</th>
+                <th class="actions-col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for h in histories %}
+            <tr>
+                <td>{{ h.history_id }}</td>
+                <td>{{ h.patient_id }}</td>
+                <td>{{ h.condition_name }}</td>
+                <td>{{ h.diagnosis_date }}</td>
+                <td>{{ h.is_chronic }}</td>
+                <td>{{ h.family_history_relevance }}</td>
+                <td>{{ h.previous_surgeries }}</td>
+                <td class="actions-col">
+                    <a href="{% url 'medicalhistory_edit' h.history_id %}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="{% url 'medicalhistory_delete' h.history_id %}" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No medical history records found.</p>
+    {% endif %}
+</div>
+{% endblock %}

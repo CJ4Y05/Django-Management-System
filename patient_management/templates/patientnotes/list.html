@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Patient Notes{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Patient Notes</h2>
+
+    <a href="{% url 'patientnote_create' %}" class="btn btn-primary mb-3">+ Add Note</a>
+
+    {% if notes %}
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Note ID</th>
+                <th>Patient ID</th>
+                <th>Staff ID</th>
+                <th>Note Type</th>
+                <th>Content</th>
+                <th>Created At</th>
+                <th class="actions-col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for n in notes %}
+            <tr>
+                <td>{{ n.note_id }}</td>
+                <td>{{ n.patient_id }}</td>
+                <td>{{ n.staff_id }}</td>
+                <td>{{ n.note_type }}</td>
+                <td>{{ n.content }}</td>
+                <td>{{ n.created_at }}</td>
+                <td class="actions-col">
+                    <a href="{% url 'patientnote_edit' n.note_id %}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="{% url 'patientnote_delete' n.note_id %}" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No patient notes found.</p>
+    {% endif %}
+</div>
+{% endblock %}

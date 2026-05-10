@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Edit Patient Note{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Edit Patient Note</h2>
+
+    {% if error_message %}
+        <div class="alert alert-danger">{{ error_message }}</div>
+    {% endif %}
+
+    <form method="POST" class="card p-4 shadow-sm">
+        {% csrf_token %}
+
+        <div class="row">
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Patient ID</label>
+                <input type="text" name="patient_id" class="form-control" value="{{ form_data.patient_id }}">
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Staff ID</label>
+                <input type="text" name="staff_id" class="form-control" value="{{ form_data.staff_id }}">
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Note Type</label>
+                <select name="note_type" class="form-select">
+                    <option value="">-- Select --</option>
+                    <option value="Nursing"   {% if form_data.note_type == "Nursing"   %}selected{% endif %}>Nursing</option>
+                    <option value="Physician" {% if form_data.note_type == "Physician" %}selected{% endif %}>Physician</option>
+                    <option value="Progress"  {% if form_data.note_type == "Progress"  %}selected{% endif %}>Progress</option>
+                </select>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Created At</label>
+                <input type="datetime-local" name="created_at" class="form-control" value="{{ form_data.created_at }}">
+            </div>
+
+            <div class="col-md-12 mb-3">
+                <label class="form-label">Content</label>
+                <textarea name="content" class="form-control" rows="4">{{ form_data.content }}</textarea>
+            </div>
+
+        </div>
+
+        <div class="d-flex justify-content-between mt-3">
+            <a href="{% url 'patientnote_list' %}" class="btn btn-secondary">Back</a>
+            <button type="submit" class="btn btn-success">Save Changes</button>
+        </div>
+
+    </form>
+</div>
+{% endblock %}

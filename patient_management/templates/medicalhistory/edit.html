@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Edit Medical History{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Edit Medical History</h2>
+
+    {% if error_message %}
+        <div class="alert alert-danger">{{ error_message }}</div>
+    {% endif %}
+
+    <form method="POST" class="card p-4 shadow-sm">
+        {% csrf_token %}
+
+        <div class="row">
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Patient ID</label>
+                <input type="text" name="patient_id" class="form-control" value="{{ form_data.patient_id }}">
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Condition Name (ICD-10 Code)</label>
+                <input type="text" name="condition_name" class="form-control" value="{{ form_data.condition_name }}">
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Diagnosis Date</label>
+                <input type="date" name="diagnosis_date" class="form-control" value="{{ form_data.diagnosis_date }}">
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Is Chronic</label>
+                <select name="is_chronic" class="form-select">
+                    <option value="">-- Select --</option>
+                    <option value="Yes" {% if form_data.is_chronic == "Yes" %}selected{% endif %}>Yes</option>
+                    <option value="No"  {% if form_data.is_chronic == "No"  %}selected{% endif %}>No</option>
+                </select>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Family History Relevance</label>
+                <textarea name="family_history_relevance" class="form-control" rows="3">{{ form_data.family_history_relevance }}</textarea>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Previous Surgeries</label>
+                <textarea name="previous_surgeries" class="form-control" rows="3">{{ form_data.previous_surgeries }}</textarea>
+            </div>
+
+        </div>
+
+        <div class="d-flex justify-content-between mt-3">
+            <a href="{% url 'medicalhistory_list' %}" class="btn btn-secondary">Back</a>
+            <button type="submit" class="btn btn-success">Save Changes</button>
+        </div>
+
+    </form>
+</div>
+{% endblock %}

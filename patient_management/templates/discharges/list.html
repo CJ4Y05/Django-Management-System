@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Discharges{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Discharges</h2>
+
+    <a href="{% url 'discharge_create' %}" class="btn btn-primary mb-3">+ Add Discharge</a>
+
+    {% if discharges %}
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Discharge ID</th>
+                <th>Admission ID</th>
+                <th>Date & Time</th>
+                <th>Condition</th>
+                <th>Final Diagnosis</th>
+                <th>Discharged By</th>
+                <th>Medico Legal</th>
+                <th class="actions-col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in discharges %}
+            <tr>
+                <td>{{ d.discharge_id }}</td>
+                <td>{{ d.admission_id }}</td>
+                <td>{{ d.discharge_date_time }}</td>
+                <td>{{ d.discharge_condition }}</td>
+                <td>{{ d.final_diagnosis }}</td>
+                <td>{{ d.discharged_by }}</td>
+                <td>{{ d.medico_legal_status }}</td>
+                <td class="actions-col">
+                    <a href="{% url 'discharge_edit' d.discharge_id %}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="{% url 'discharge_delete' d.discharge_id %}" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No discharge records found.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Edit Discharge{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Edit Discharge</h2>
+
+    {% if error_message %}
+        <div class="alert alert-danger">{{ error_message }}</div>
+    {% endif %}
+
+    <form method="POST" class="card p-4 shadow-sm">
+        {% csrf_token %}
+
+        <div class="row">
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Admission ID</label>
+                <input type="text" name="admission_id" class="form-control" value="{{ form_data.admission_id }}">
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Discharge Date & Time</label>
+                <input type="datetime-local" name="discharge_date_time" class="form-control" value="{{ form_data.discharge_date_time }}">
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Discharge Condition</label>
+                <select name="discharge_condition" class="form-select">
+                    <option value="">-- Select --</option>
+                    <option value="Recovered" {% if form_data.discharge_condition == "Recovered" %}selected{% endif %}>Recovered</option>
+                    <option value="Improved"  {% if form_data.discharge_condition == "Improved"  %}selected{% endif %}>Improved</option>
+                    <option value="Expired"   {% if form_data.discharge_condition == "Expired"   %}selected{% endif %}>Expired</option>
+                </select>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Final Diagnosis</label>
+                <input type="text" name="final_diagnosis" class="form-control" value="{{ form_data.final_diagnosis }}">
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Discharged By</label>
+                <input type="text" name="discharged_by" class="form-control" value="{{ form_data.discharged_by }}">
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Medico Legal Status</label>
+                <select name="medico_legal_status" class="form-select">
+                    <option value="">-- Select --</option>
+                    <option value="Yes" {% if form_data.medico_legal_status == "Yes" %}selected{% endif %}>Yes</option>
+                    <option value="No"  {% if form_data.medico_legal_status == "No"  %}selected{% endif %}>No</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="d-flex justify-content-between mt-3">
+            <a href="{% url 'discharge_list' %}" class="btn btn-secondary">Back</a>
+            <button type="submit" class="btn btn-success">Save Changes</button>
+        </div>
+
+    </form>
+</div>
+{% endblock %}

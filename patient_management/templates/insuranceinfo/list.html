@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Insurance Info{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Insurance Info</h2>
+
+    <a href="{% url 'insuranceinfo_create' %}" class="btn btn-primary mb-3">+ Add Insurance</a>
+
+    {% if insurances %}
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Insurance ID</th>
+                <th>Patient ID</th>
+                <th>Provider Type</th>
+                <th>PhilHealth No</th>
+                <th>HMO Name</th>
+                <th>Policy Number</th>
+                <th>Is Active</th>
+                <th>Coverage Limit</th>
+                <th class="actions-col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in insurances %}
+            <tr>
+                <td>{{ i.insurance_id }}</td>
+                <td>{{ i.patient_id }}</td>
+                <td>{{ i.provider_type }}</td>
+                <td>{{ i.philhealth_no }}</td>
+                <td>{{ i.hmo_name }}</td>
+                <td>{{ i.policy_number }}</td>
+                <td>{{ i.is_active }}</td>
+                <td>{{ i.coverage_limit }}</td>
+                <td class="actions-col">
+                    <a href="{% url 'insuranceinfo_edit' i.insurance_id %}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="{% url 'insuranceinfo_delete' i.insurance_id %}" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No insurance records found.</p>
+    {% endif %}
+</div>
+{% endblock %}
